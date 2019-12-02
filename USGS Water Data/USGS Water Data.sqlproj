@@ -23,7 +23,7 @@
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
     <Trustworthy>True</Trustworthy>
-    <PermissionSet>UNSAFE</PermissionSet>
+    <PermissionSet>EXTERNAL_ACCESS</PermissionSet>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
