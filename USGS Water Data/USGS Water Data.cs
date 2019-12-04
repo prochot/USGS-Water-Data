@@ -11,7 +11,7 @@ public partial class StoredProcedures
     [Microsoft.SqlServer.Server.SqlProcedure]
     public static void UspGetUSGSDataBySite(SqlInt32 site)
     {
-        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;        
+        ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
         HttpWebRequest request =
             (HttpWebRequest)WebRequest.Create("https://waterservices.usgs.gov/nwis/iv/?format=waterml,2.0&indent=on&sites=" + site + "&siteStatus=all");
 
