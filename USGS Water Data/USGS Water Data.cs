@@ -5,14 +5,13 @@ using System.Xml;
 using System.Text;
 using Microsoft.SqlServer.Server;
 using System.Data.SqlTypes;
-using System.Security.Cryptography.X509Certificates;
-using System.Net.Security;
 
 public partial class StoredProcedures
 {
     [Microsoft.SqlServer.Server.SqlProcedure]
     public static void UspGetUSGSDataBySite(SqlInt32 site)
     {
+        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;        
         HttpWebRequest request =
             (HttpWebRequest)WebRequest.Create("https://waterservices.usgs.gov/nwis/iv/?format=waterml,2.0&indent=on&sites=" + site + "&siteStatus=all");
 
@@ -21,7 +20,6 @@ public partial class StoredProcedures
         request.ContentType = "application/xml";
         request.Accept = "application/xml";
 
-        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
         {
             using (Stream receiveStream = response.GetResponseStream())
