@@ -1,3 +1,4 @@
+using System
 using System.IO;
 using System.Data;
 using System.Net;
@@ -5,6 +6,7 @@ using System.Xml;
 using System.Text;
 using Microsoft.SqlServer.Server;
 using System.Data.SqlTypes;
+using System.Collections;
 
 public partial class StoredProcedures
 {
@@ -35,5 +37,39 @@ public partial class StoredProcedures
                 }
             }
         }
+    }
+}
+
+public partial class UserDefinedFunctions
+{
+    [Microsoft.SqlServer.Server.SqlFunction(
+        FillRowMethodName = "FillRow",
+        TableDefinition = 
+            "SiteID int, " +
+            "ParameterCode int, " +
+            "Time datetimeoffset(7), " +
+            "Value decimal(12,4), " +
+            "Qualifier nchar(1)"
+        )       
+    ]
+    //public static IEnumerable UtvfGetUSGSDataBySite()
+    //{
+
+    //}
+
+    public static void FillRow(object Observation
+        ,out SqlInt32 SiteId
+        ,out SqlInt32 ParameterCode
+        ,out DateTimeOffset Time
+        ,out SqlDecimal Value
+        ,out SqlChars Qualifier
+        )
+    {
+        DataRow r = (DataRow)Observation;
+        SiteId = new SqlInt32(Convert.ToInt32(r["SiteID"]));
+        ParameterCode = new SqlInt32(Convert.ToInt32(r["ParameterCode"]));
+        Time = new DateTimeOffset(Convert.ToDateTime(r["DateTimeOffset"]));
+        Value = new SqlDecimal(Convert.ToDecimal(r["Value"]));
+        Qualifier = new SqlChars(Convert.ToString(r["Qualifier"]));
     }
 }
